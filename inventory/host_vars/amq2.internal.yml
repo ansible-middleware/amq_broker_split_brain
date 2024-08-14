@@ -1,0 +1,2 @@
+amq_broker_ha_role: "{{ 'primary' if amq_broker_instance_name in inventory_hostname else 'backup' }}"
+amq_broker_replicated: "{{ false if amq_broker_instance_name in inventory_hostname else true }}"

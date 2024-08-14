@@ -1,0 +1,6 @@
+amq_broker_instance_name: amq1
+amq_broker_service_name: amq1
+amq_broker_prometheus_enabled: true
+amq_broker_port: 61616
+amq_broker_http_port: 8161
+

@@ -1,0 +1,43 @@
+amq_broker_ha_enabled: true
+amq_broker_replicate: true
+amq_broker_host: "{{ inventory_hostname }}"
+amq_broker_cors_allow_origin:
+  - '*://localhost*'
+  - '*://{{ inventory_hostname }}*'
+  - '*://0.0.0.0*'
+
+amq_broker_acceptors:
+  - name: artemis
+    scheme: tcp
+    bind_address: "{{ amq_broker_host }}"
+    bind_port: "{{ amq_broker_port }}"
+    parameters:
+      tcpSendBufferSize: 1048576
+      tcpReceiveBufferSize: 1048576
+      amqpMinLargeMessageSize: 102400
+      protocols: CORE,AMQP,STOMP,HORNETQ,MQTT,OPENWIRE
+      useEpoll: true
+      amqpCredits: 1000
+      amqpLowCredits: 300
+      amqpDuplicateDetection: true
+      supportAdvisory: false
+      suppressInternalManagementObjects: false
+
+amq_broker_addresses:
+  - name: queue.in
+    anycast:
+      - name: queue.in
+  - name: queue.out
+    anycast:
+      - name: queue.out
+  - name: DLQ
+    anycast:
+      - name: DLQ
+  - name: ExpiryQueue
+    anycast:
+      - name: ExpiryQueue
+  - name: importantTopic
+    multicast:
+  - name: client123.pubsub
+    multicast:
+      - name: client123.pubsub.foo

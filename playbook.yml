@@ -1,0 +1,54 @@
+---
+- name: Install amq1
+  hosts: amq1
+  roles:
+   - redhat.amq_broker.amq_broker
+
+- name: Install amq2
+  hosts: amq2
+  roles:
+    - redhat.amq_broker.amq_broker
+
+- name: Install amq3
+  hosts: amq3
+  roles:
+    - redhat.amq_broker.amq_broker
+
+- name: Status amq1
+  hosts: amq1
+  tasks:
+    - name: Gather amq_broker status
+      redhat.amq_broker.amq_broker_facts:
+        auth_username: amq-broker
+        auth_password: amq-broker
+        broker_name: amq1
+        base_url: "http://{{ inventory_hostname }}:{{ amq_broker_http_port }}"
+    - name: Print status
+      debug:
+        var: ansible_facts.amq_broker.HAPolicy
+
+- name: Status amq2
+  hosts: amq2
+  tasks:
+    - name: Gather amq_broker status
+      redhat.amq_broker.amq_broker_facts:
+        auth_username: amq-broker
+        auth_password: amq-broker
+        broker_name: amq2
+        base_url: "http://{{ inventory_hostname }}:{{ amq_broker_http_port }}"
+    - name: Print status
+      debug:
+        var: ansible_facts.amq_broker.HAPolicy
+
+- name: Status amq3
+  hosts: amq3
+  tasks:
+    - name: Gather amq_broker status
+      redhat.amq_broker.amq_broker_facts:
+        auth_username: amq-broker
+        auth_password: amq-broker
+        broker_name: amq3
+        base_url: "http://{{ inventory_hostname }}:{{ amq_broker_http_port }}"
+    - name: Print status
+      debug:
+        var: ansible_facts.amq_broker.HAPolicy
